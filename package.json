@@ -1,6 +1,6 @@
 {
   "name": "learning-mcp-concepts",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
