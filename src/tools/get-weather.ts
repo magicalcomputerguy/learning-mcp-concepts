@@ -15,8 +15,17 @@ export const getWeatherTool: Tool = {
         inputSchema,
     },
     handler: async ({ city }: Input) => {
-        const weatherInfo = await fetch(`https://wttr.in/${city}?format=3`).then(r => r.text());
+        try {
+            const weatherInfoResponse = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=3`);
+            if (!weatherInfoResponse.ok) {
+                throw new Error("Weather service failed to response.");
+            }
 
-        return { content: [{ type: 'text', text: weatherInfo }] };
+            const weatherInfo = await weatherInfoResponse.text();
+
+            return { content: [{ type: 'text', text: weatherInfo }] };
+        } catch (error) {
+            return { content: [{ type: 'text', text: 'Weather service unavailable.' }] };
+        }
     },
 };
